@@ -65,6 +65,7 @@ struct PCB{
     enum states     state;
     unsigned int    io_freq;
     unsigned int    io_duration;
+    unsigned int    priority;
 };
 
 //------------------------------------HELPER FUNCTIONS FOR THE SIMULATOR------------------------------
@@ -107,6 +108,8 @@ std::string print_PCB(std::vector<PCB> _PCB) {
               << std::setfill(' ') << std::setw(14) << "Remaining Time"
               << std::setw(2) << "|"
               << std::setfill(' ') << std::setw(11) << "State"
+              << std::setw(2) << "|"
+              << std::setfill(' ') << std::setw(14) << "Ext. Priority"
               << std::setw(2) << "|" << std::endl;
     
     // Print separator
@@ -128,6 +131,8 @@ std::string print_PCB(std::vector<PCB> _PCB) {
                   << std::setw(14) << program.remaining_time
                   << std::setw(2) << "|"
                   << std::setw(11) << program.state
+                  << std::setw(2) << "|"
+                  << std::setw(14) << program.priority
                   << std::setw(2) << "|" << std::endl;
     }
     
@@ -269,6 +274,7 @@ PCB add_process(std::vector<std::string> tokens) {
     process.start_time = -1;
     process.partition_number = -1;
     process.state = NOT_ASSIGNED;
+    process.priority = std::stoi(tokens[6]);
 
     return process;
 }

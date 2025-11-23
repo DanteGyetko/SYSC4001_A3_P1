@@ -17,6 +17,16 @@ void FCFS(std::vector<PCB> &ready_queue) {
             );
 }
 
+void external_priorities(std::vector<PCB> &ready_queue) {
+    std::sort( 
+                ready_queue.begin(),
+                ready_queue.end(),
+                []( const PCB &first, const PCB &second ){
+                    return (first.priority < second.priority); 
+                } 
+            );
+}
+
 std::tuple<std::string /* add std::string for bonus mark */ > run_simulation(std::vector<PCB> list_processes) {
 
     std::vector<PCB> ready_queue;   //The ready queue of processes
@@ -62,14 +72,56 @@ std::tuple<std::string /* add std::string for bonus mark */ > run_simulation(std
         }
 
         ///////////////////////MANAGE WAIT QUEUE/////////////////////////
-        //This mainly involves keeping track of how long a process must remain in the ready queue
+        for (int i = wait_queue.size() - 1; i > -1; i--) {
+            auto process = wait_queue[i];
+            if (wait_queue[i].io_duration == current_time - wait_queue[i].start_time) {
+                process.state = READY;
+                execution_status += print_exec_status(current_time, process.PID, WAITING, READY);
+                wait_queue.pop_back();
+                ready_queue.push_back(process);
+            }
+        }
+        
+
 
         /////////////////////////////////////////////////////////////////
 
         //////////////////////////SCHEDULER//////////////////////////////
-        FCFS(ready_queue); //example of FCFS is shown here
+        external_priorities(ready_queue); //sorted according to prio
+
+        
+        running.remaining_time--;
+
+        //check if process needs i/o
+        if(running.io_freq == current_time - running.start_time) {
+            running.state = WAITING;
+            execution_status += print_exec_status(current_time, running.PID, RUNNING, WAITING);
+            wait_queue.push_back(running);
+            idle_CPU(running);
+        }
+        //check if process terminates
+        else if (running.remaining_time == 0) {
+            running.state = TERMINATED;
+            execution_status += print_exec_status(current_time, running.PID, RUNNING, TERMINATED);
+            idle_CPU(running);
+        }
+        
+        //now if no process has the CPU:
+        if (running.state == NOT_ASSIGNED) {
+            running = ready_queue[ready_queue.size() - 1];
+            ready_queue.pop_back();
+            running.state = RUNNING;
+            execution_status += print_exec_status(current_time, running.PID, READY, RUNNING);
+            running.start_time = current_time;
+        }
+
+        
+
+
+
         /////////////////////////////////////////////////////////////////
 
+        current_time++;
     }
     
     //Close the output table
