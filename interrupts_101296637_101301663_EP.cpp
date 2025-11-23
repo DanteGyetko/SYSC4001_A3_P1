@@ -50,7 +50,6 @@ std::tuple<std::string /* add std::string for bonus mark */ > run_simulation(std
     //Loop while till there are no ready or waiting processes.
     //This is the main reason I have job_list, you don't have to use it.
     while(!all_process_terminated(job_list) || job_list.empty()) {
-
         //Inside this loop, there are three things you must do:
         // 1) Populate the ready queue with processes as they arrive
         // 2) Manage the wait queue
@@ -72,7 +71,7 @@ std::tuple<std::string /* add std::string for bonus mark */ > run_simulation(std
         }
 
         ///////////////////////MANAGE WAIT QUEUE/////////////////////////
-        for (int i = wait_queue.size() - 1; i > -1; i--) {
+        for (int i = wait_queue.size() - 1; i > 0; i--) {
             auto process = wait_queue[i];
             if (wait_queue[i].io_duration == current_time - wait_queue[i].start_time) {
                 process.state = READY;
@@ -92,32 +91,32 @@ std::tuple<std::string /* add std::string for bonus mark */ > run_simulation(std
         
         running.remaining_time--;
 
-        //check if process needs i/o
-        if(running.io_freq == current_time - running.start_time) {
-            running.state = WAITING;
-            execution_status += print_exec_status(current_time, running.PID, RUNNING, WAITING);
-            wait_queue.push_back(running);
-            idle_CPU(running);
-        }
         //check if process terminates
-        else if (running.remaining_time == 0) {
+        if (running.remaining_time == 0) {
             running.state = TERMINATED;
             execution_status += print_exec_status(current_time, running.PID, RUNNING, TERMINATED);
             idle_CPU(running);
         }
+        //check if process needs i/o
+        else if(running.io_freq == current_time - running.start_time) {
+            running.state = WAITING;
+            running.start_time = current_time;
+            execution_status += print_exec_status(current_time, running.PID, RUNNING, WAITING);
+            wait_queue.push_back(running);
+            idle_CPU(running);
+        }
+        
         
         //now if no process has the CPU:
         if (running.state == NOT_ASSIGNED) {
             running = ready_queue[ready_queue.size() - 1];
             ready_queue.pop_back();
             running.state = RUNNING;
-            execution_status += print_exec_status(current_time, running.PID, READY, RUNNING);
             running.start_time = current_time;
+            execution_status += print_exec_status(current_time, running.PID, READY, RUNNING);
         }
 
         
-
-
 
         /////////////////////////////////////////////////////////////////
 
