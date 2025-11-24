@@ -5,7 +5,9 @@
  * 
  */
 
-#include<interrupts_101296637_101301663.hpp>
+#include <interrupts_101296637_101301663.hpp>
+
+#define TIME_SLICE 100
 
 void FCFS(std::vector<PCB> &ready_queue) {
     std::sort( 
@@ -15,6 +17,26 @@ void FCFS(std::vector<PCB> &ready_queue) {
                     return (first.arrival_time > second.arrival_time); 
                 } 
             );
+}
+
+void external_priorities(std::vector<PCB> &ready_queue) {
+    std::sort( 
+                ready_queue.begin(),
+                ready_queue.end(),
+                []( const PCB &first, const PCB &second ){
+                    return (first.priority > second.priority); 
+                } 
+            );
+}
+
+void return_running_to_ready(std::vector<PCB> &ready_queue, std::vector<PCB> &job_list, PCB &running, int current_time, std::string &execution_status){
+    if (running.state != NOT_ASSIGNED) {
+        running.state = READY;
+        execution_status += print_exec_status(current_time, running.PID, RUNNING, READY);
+        ready_queue.insert(ready_queue.begin(), running);
+        sync_queue(job_list, running);
+        idle_CPU(running);
+    }
 }
 
 std::tuple<std::string /* add std::string for bonus mark */ > run_simulation(std::vector<PCB> list_processes) {
@@ -33,6 +55,7 @@ std::tuple<std::string /* add std::string for bonus mark */ > run_simulation(std
     idle_CPU(running);
 
     std::string execution_status;
+    bool preempt_flag = false;
 
     //make the output table (the header row)
     execution_status = print_exec_header();
@@ -40,7 +63,6 @@ std::tuple<std::string /* add std::string for bonus mark */ > run_simulation(std
     //Loop while till there are no ready or waiting processes.
     //This is the main reason I have job_list, you don't have to use it.
     while(!all_process_terminated(job_list) || job_list.empty()) {
-
         //Inside this loop, there are three things you must do:
         // 1) Populate the ready queue with processes as they arrive
         // 2) Manage the wait queue
@@ -57,24 +79,76 @@ std::tuple<std::string /* add std::string for bonus mark */ > run_simulation(std
                 ready_queue.push_back(process); //Add the process to the ready queue
                 job_list.push_back(process); //Add it to the list of processes
 
+                //preemption: if there's a process running, remove it so we can later check priorities
+                preempt_flag = true;
+            
                 execution_status += print_exec_status(current_time, process.PID, NEW, READY);
             }
         }
 
         ///////////////////////MANAGE WAIT QUEUE/////////////////////////
-        //This mainly involves keeping track of how long a process must remain in the ready queue
+        for (int i = wait_queue.size() - 1; i > -1; i--) {
+            auto process = wait_queue[i];
+            if (process.io_duration == current_time - process.start_time) {
+                process.state = READY;
+                ready_queue.insert(ready_queue.begin(), process);
+                sync_queue(job_list, process);
 
+                preempt_flag = true;
+
+                execution_status += print_exec_status(current_time, process.PID, WAITING, READY);
+                wait_queue.erase(wait_queue.begin() + i);
+            }
+        }
         /////////////////////////////////////////////////////////////////
 
         //////////////////////////SCHEDULER//////////////////////////////
-        FCFS(ready_queue); //example of FCFS is shown here
+
+        running.remaining_time--;
+        running.time_until_next_io--;
+
+        if (running.state != NOT_ASSIGNED) {
+            //check if process terminates
+            if (running.remaining_time == 0) {
+                execution_status += print_exec_status(current_time, running.PID, RUNNING, TERMINATED);
+                terminate_process(running, job_list);
+                idle_CPU(running);
+            }
+            //check if process needs i/o
+            else if(running.time_until_next_io == 0) {
+                running.time_until_next_io = running.io_freq;
+                running.state = WAITING;
+                running.start_time = current_time;
+                execution_status += print_exec_status(current_time, running.PID, RUNNING, WAITING);
+                wait_queue.push_back(running);
+                sync_queue(job_list, running);
+                idle_CPU(running);
+            }
+            //check if process timeslice expires
+            else if (TIME_SLICE == current_time - running.start_time){
+                preempt_flag = true;
+            }
+        }
+
+        if (preempt_flag){
+            return_running_to_ready(ready_queue, job_list, running, current_time, execution_status);
+            preempt_flag = false;
+        }
+        
+        external_priorities(ready_queue); //sorted according to prio
+
+        //now if no process has the CPU:
+        if (running.state == NOT_ASSIGNED && !all_process_terminated(job_list) && !ready_queue.empty()) {
+            run_process(running, job_list, ready_queue, current_time);
+            execution_status += print_exec_status(current_time, running.PID, READY, RUNNING);
+        }
         /////////////////////////////////////////////////////////////////
 
+        current_time++;
     }
     
     //Close the output table
     execution_status += print_exec_footer();
-
     return std::make_tuple(execution_status);
 }
 
