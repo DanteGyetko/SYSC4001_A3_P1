@@ -85,8 +85,13 @@ std::tuple<std::string /* add std::string for bonus mark */ > run_simulation(std
         /////////////////////////////////////////////////////////////////
 
         //////////////////////////SCHEDULER//////////////////////////////
-        external_priorities(ready_queue); //sorted according to prio
-
+        /*
+        for (const auto &elem : ready_queue){
+            std::cout << elem.PID << " ";
+        }
+        std::cout << "\n";
+        */
+        
         running.remaining_time--;
 
         //check if process terminates
@@ -105,9 +110,10 @@ std::tuple<std::string /* add std::string for bonus mark */ > run_simulation(std
             idle_CPU(running);
         }
         
+        external_priorities(ready_queue); //sorted according to prio
         
         //now if no process has the CPU:
-        if (running.state == NOT_ASSIGNED && !job_list.empty()) {
+        if (running.state == NOT_ASSIGNED && !all_process_terminated(job_list) && !ready_queue.empty()) {
             run_process(running, job_list, ready_queue, current_time);
             execution_status += print_exec_status(current_time, running.PID, READY, RUNNING);
         }

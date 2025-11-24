@@ -7,6 +7,8 @@
 
 #include<interrupts_101296637_101301663.hpp>
 
+#define TIME_SLICE 100
+
 void FCFS(std::vector<PCB> &ready_queue) {
     std::sort( 
                 ready_queue.begin(),
@@ -16,6 +18,7 @@ void FCFS(std::vector<PCB> &ready_queue) {
                 } 
             );
 }
+
 
 std::tuple<std::string /* add std::string for bonus mark */ > run_simulation(std::vector<PCB> list_processes) {
 
@@ -40,7 +43,6 @@ std::tuple<std::string /* add std::string for bonus mark */ > run_simulation(std
     //Loop while till there are no ready or waiting processes.
     //This is the main reason I have job_list, you don't have to use it.
     while(!all_process_terminated(job_list) || job_list.empty()) {
-
         //Inside this loop, there are three things you must do:
         // 1) Populate the ready queue with processes as they arrive
         // 2) Manage the wait queue
@@ -58,23 +60,63 @@ std::tuple<std::string /* add std::string for bonus mark */ > run_simulation(std
                 job_list.push_back(process); //Add it to the list of processes
 
                 execution_status += print_exec_status(current_time, process.PID, NEW, READY);
+
             }
         }
 
         ///////////////////////MANAGE WAIT QUEUE/////////////////////////
-        //This mainly involves keeping track of how long a process must remain in the ready queue
-
+        for (int i = wait_queue.size() - 1; i > -1; i--) {
+            auto process = wait_queue[i];
+            if (process.io_duration == current_time - process.start_time) {
+                process.state = READY;
+                ready_queue.insert(ready_queue.begin(), process);
+                sync_queue(job_list, process);
+                execution_status += print_exec_status(current_time, process.PID, WAITING, READY);
+                wait_queue.erase(wait_queue.begin() + i);
+            }
+        }
         /////////////////////////////////////////////////////////////////
 
         //////////////////////////SCHEDULER//////////////////////////////
-        FCFS(ready_queue); //example of FCFS is shown here
+
+        running.remaining_time--;
+
+        //check if process terminates
+        if (running.remaining_time == 0) {
+            execution_status += print_exec_status(current_time, running.PID, RUNNING, TERMINATED);
+            terminate_process(running, job_list);
+            idle_CPU(running);
+        }
+        //check if process needs i/o
+        else if(running.io_freq == current_time - running.start_time) {
+            running.state = WAITING;
+            running.start_time = current_time;
+            execution_status += print_exec_status(current_time, running.PID, RUNNING, WAITING);
+            wait_queue.push_back(running);
+            sync_queue(job_list, running);
+            idle_CPU(running);
+        }
+        //check if process timeslice expires
+        else if (TIME_SLICE == current_time - running.start_time){
+            running.state = READY;
+            execution_status += print_exec_status(current_time, running.PID, RUNNING, READY);
+            ready_queue.insert(ready_queue.begin(), running);
+            sync_queue(job_list, running);
+            idle_CPU(running);
+        }
+        
+        //now if no process has the CPU:
+        if (running.state == NOT_ASSIGNED && !all_process_terminated(job_list) && !ready_queue.empty()) {
+            run_process(running, job_list, ready_queue, current_time);
+            execution_status += print_exec_status(current_time, running.PID, READY, RUNNING);
+        }
         /////////////////////////////////////////////////////////////////
 
+        current_time++;
     }
     
     //Close the output table
     execution_status += print_exec_footer();
-
     return std::make_tuple(execution_status);
 }
 
