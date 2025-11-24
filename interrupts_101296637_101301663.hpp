@@ -64,6 +64,7 @@ struct PCB{
     int             partition_number;
     enum states     state;
     unsigned int    io_freq;
+    unsigned int    time_until_next_io;
     unsigned int    io_duration;
     unsigned int    priority;
 };
@@ -270,6 +271,7 @@ PCB add_process(std::vector<std::string> tokens) {
     process.processing_time = std::stoi(tokens[3]);
     process.remaining_time = std::stoi(tokens[3]);
     process.io_freq = std::stoi(tokens[4]);
+    process.time_until_next_io = std::stoi(tokens[4]);
     process.io_duration = std::stoi(tokens[5]);
     process.start_time = -1;
     process.partition_number = -1;

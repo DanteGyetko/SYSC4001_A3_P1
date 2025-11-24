@@ -93,6 +93,7 @@ std::tuple<std::string /* add std::string for bonus mark */ > run_simulation(std
         */
         
         running.remaining_time--;
+        running.time_until_next_io--;
 
         //check if process terminates
         if (running.remaining_time == 0) {
@@ -101,7 +102,8 @@ std::tuple<std::string /* add std::string for bonus mark */ > run_simulation(std
             idle_CPU(running);
         }
         //check if process needs i/o
-        else if(running.io_freq == current_time - running.start_time) {
+        else if(running.time_until_next_io == 0) {
+            running.time_until_next_io = running.io_freq;
             running.state = WAITING;
             running.start_time = current_time;
             execution_status += print_exec_status(current_time, running.PID, RUNNING, WAITING);
