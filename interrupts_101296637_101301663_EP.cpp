@@ -22,7 +22,7 @@ void external_priorities(std::vector<PCB> &ready_queue) {
                 ready_queue.begin(),
                 ready_queue.end(),
                 []( const PCB &first, const PCB &second ){
-                    return (first.priority < second.priority); 
+                    return (first.priority > second.priority); 
                 } 
             );
 }
@@ -67,34 +67,32 @@ std::tuple<std::string /* add std::string for bonus mark */ > run_simulation(std
                 job_list.push_back(process); //Add it to the list of processes
 
                 execution_status += print_exec_status(current_time, process.PID, NEW, READY);
+
             }
         }
 
         ///////////////////////MANAGE WAIT QUEUE/////////////////////////
-        for (int i = wait_queue.size() - 1; i > 0; i--) {
+        for (int i = wait_queue.size() - 1; i > -1; i--) {
             auto process = wait_queue[i];
-            if (wait_queue[i].io_duration == current_time - wait_queue[i].start_time) {
+            if (process.io_duration == current_time - process.start_time) {
                 process.state = READY;
-                execution_status += print_exec_status(current_time, process.PID, WAITING, READY);
-                wait_queue.pop_back();
                 ready_queue.push_back(process);
+                sync_queue(job_list, process);
+                execution_status += print_exec_status(current_time, process.PID, WAITING, READY);
+                wait_queue.erase(wait_queue.begin() + i);
             }
         }
-        
-
-
         /////////////////////////////////////////////////////////////////
 
         //////////////////////////SCHEDULER//////////////////////////////
         external_priorities(ready_queue); //sorted according to prio
 
-        
         running.remaining_time--;
 
         //check if process terminates
         if (running.remaining_time == 0) {
-            running.state = TERMINATED;
             execution_status += print_exec_status(current_time, running.PID, RUNNING, TERMINATED);
+            terminate_process(running, job_list);
             idle_CPU(running);
         }
         //check if process needs i/o
@@ -103,16 +101,14 @@ std::tuple<std::string /* add std::string for bonus mark */ > run_simulation(std
             running.start_time = current_time;
             execution_status += print_exec_status(current_time, running.PID, RUNNING, WAITING);
             wait_queue.push_back(running);
+            sync_queue(job_list, running);
             idle_CPU(running);
         }
         
         
         //now if no process has the CPU:
-        if (running.state == NOT_ASSIGNED) {
-            running = ready_queue[ready_queue.size() - 1];
-            ready_queue.pop_back();
-            running.state = RUNNING;
-            running.start_time = current_time;
+        if (running.state == NOT_ASSIGNED && !job_list.empty()) {
+            run_process(running, job_list, ready_queue, current_time);
             execution_status += print_exec_status(current_time, running.PID, READY, RUNNING);
         }
 
@@ -125,7 +121,6 @@ std::tuple<std::string /* add std::string for bonus mark */ > run_simulation(std
     
     //Close the output table
     execution_status += print_exec_footer();
-
     return std::make_tuple(execution_status);
 }
 
