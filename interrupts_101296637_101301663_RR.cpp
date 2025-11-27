@@ -90,7 +90,7 @@ std::tuple<std::string /* add std::string for bonus mark */ > run_simulation(std
                 idle_CPU(running);
             }
             //check if process needs i/o
-            else if(running.time_until_next_io == 0) {
+            else if(running.time_until_next_io == 0 && running.io_freq != 0) {
                 running.time_until_next_io = running.io_freq;
                 running.state = WAITING;
                 running.start_time = current_time;
