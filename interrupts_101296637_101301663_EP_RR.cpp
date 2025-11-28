@@ -111,6 +111,7 @@ std::tuple<std::string /* add std::string for bonus mark */ > run_simulation(std
             //check if process terminates
             if (running.remaining_time == 0) {
                 execution_status += print_exec_status(current_time, running.PID, RUNNING, TERMINATED);
+                running.termination_time = current_time;
                 terminate_process(running, job_list);
                 idle_CPU(running);
             }
@@ -119,6 +120,7 @@ std::tuple<std::string /* add std::string for bonus mark */ > run_simulation(std
                 running.time_until_next_io = running.io_freq;
                 running.state = WAITING;
                 running.start_time = current_time;
+                running.io_start_times.push_back(current_time);
                 execution_status += print_exec_status(current_time, running.PID, RUNNING, WAITING);
                 wait_queue.push_back(running);
                 sync_queue(job_list, running);
@@ -143,12 +145,17 @@ std::tuple<std::string /* add std::string for bonus mark */ > run_simulation(std
             execution_status += print_exec_status(current_time, running.PID, READY, RUNNING);
         }
         /////////////////////////////////////////////////////////////////
+        for (PCB &p: ready_queue){
+            p.wait_time += 1;
+        }
 
         current_time++;
     }
     
     //Close the output table
     execution_status += print_exec_footer();
+    execution_status += "\n" + calculate_averages(job_list, current_time - 1) + "\n"; 
+
     return std::make_tuple(execution_status);
 }
 

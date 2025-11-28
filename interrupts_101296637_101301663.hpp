@@ -66,9 +66,33 @@ struct PCB{
     unsigned int    io_freq;
     unsigned int    time_until_next_io;
     unsigned int    io_duration;
+    unsigned int    wait_time;
+    unsigned int    termination_time;
+    std::vector<int> io_start_times;
 };
 
 //------------------------------------HELPER FUNCTIONS FOR THE SIMULATOR------------------------------
+
+std::string calculate_averages(std::vector<PCB> list_jobs, int current_time){
+    int num_processes = list_jobs.size();
+    int total_WT = 0;
+    int total_TAT = 0;
+    int process_avg_RT = 0;
+    for (PCB p: list_jobs){
+        total_WT += p.wait_time;
+        total_TAT += p.termination_time - p.arrival_time;
+        for (int i = 0; i < p.io_start_times.size() - 1; i++) {
+            process_avg_RT +=  (p.io_start_times[i + 1] - p.io_start_times[i]) / p.io_start_times.size();
+        }
+    }
+    int avg_WT = total_WT / num_processes;
+    int avg_TAT = total_TAT / num_processes;
+    int avg_RT = process_avg_RT / num_processes;
+    double throughput = num_processes / current_time;
+    return "Throughput: " + std::to_string(throughput) + "Average TAT: " + std::to_string(avg_TAT) + "\nAverage WT: " + std::to_string(avg_WT) + "\nAverage RT: " + std::to_string(avg_RT);
+}
+
+
 // Following function was taken from stackoverflow; helper function for splitting strings
 std::vector<std::string> split_delim(std::string input, std::string delim) {
     std::vector<std::string> tokens;
@@ -271,6 +295,9 @@ PCB add_process(std::vector<std::string> tokens) {
     process.start_time = -1;
     process.partition_number = -1;
     process.state = NOT_ASSIGNED;
+    process.wait_time = 0;
+    process.termination_time = 0;
+    process.io_start_times.push_back(std::stoi(tokens[2]));
 
     return process;
 }
