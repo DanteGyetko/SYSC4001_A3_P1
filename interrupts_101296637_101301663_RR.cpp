@@ -167,7 +167,8 @@ int main(int argc, char** argv) {
     //With the list of processes, run the simulation
     auto [exec] = run_simulation(list_process);
 
-    write_output(exec, "execution.txt");
+    std::string output_str = "./output_files/execution_" + std::string(file_name) + "_RR.txt";
+    write_output(exec, output_str.c_str());
 
     return 0;
 }

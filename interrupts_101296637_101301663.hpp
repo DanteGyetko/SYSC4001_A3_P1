@@ -88,8 +88,8 @@ std::string calculate_averages(std::vector<PCB> list_jobs, int current_time){
     int avg_WT = total_WT / num_processes;
     int avg_TAT = total_TAT / num_processes;
     int avg_RT = process_avg_RT / num_processes;
-    double throughput = num_processes / current_time;
-    return "Throughput: " + std::to_string(throughput) + "Average TAT: " + std::to_string(avg_TAT) + "\nAverage WT: " + std::to_string(avg_WT) + "\nAverage RT: " + std::to_string(avg_RT);
+    return "Throughput: " + std::to_string(num_processes) + "/" + std::to_string(current_time)
+        + "\nAverage TAT: " + std::to_string(avg_TAT) + "\nAverage WT: " + std::to_string(avg_WT) + "\nAverage RT: " + std::to_string(avg_RT);
 }
 
 
