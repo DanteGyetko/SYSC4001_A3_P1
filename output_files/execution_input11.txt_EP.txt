@@ -1,0 +1,69 @@
++------------------------------------------------+
+|Time of Transition |PID | Old State | New State |
++------------------------------------------------+
+|                 0 |  2 |       NEW |     READY |
+|                 0 |  4 |       NEW |     READY |
+|                 0 |  2 |     READY |   RUNNING |
+|                20 |  1 |       NEW |     READY |
+|                20 |  2 |   RUNNING |   WAITING |
+|                20 |  1 |     READY |   RUNNING |
+|                30 |  3 |       NEW |     READY |
+|                45 |  1 |   RUNNING |   WAITING |
+|                45 |  3 |     READY |   RUNNING |
+|                80 |  2 |   WAITING |     READY |
+|               165 |  1 |   WAITING |     READY |
+|               195 |  3 |   RUNNING |   WAITING |
+|               195 |  1 |     READY |   RUNNING |
+|               215 |  3 |   WAITING |     READY |
+|               220 |  1 |   RUNNING |   WAITING |
+|               220 |  2 |     READY |   RUNNING |
+|               240 |  2 |   RUNNING |   WAITING |
+|               240 |  3 |     READY |   RUNNING |
+|               300 |  2 |   WAITING |     READY |
+|               340 |  1 |   WAITING |     READY |
+|               390 |  3 |   RUNNING |   WAITING |
+|               390 |  1 |     READY |   RUNNING |
+|               400 |  1 |   RUNNING |TERMINATED |
+|               400 |  2 |     READY |   RUNNING |
+|               410 |  3 |   WAITING |     READY |
+|               420 |  2 |   RUNNING |   WAITING |
+|               420 |  3 |     READY |   RUNNING |
+|               430 |  3 |   RUNNING |TERMINATED |
+|               430 |  4 |     READY |   RUNNING |
+|               450 |  4 |   RUNNING |   WAITING |
+|               455 |  4 |   WAITING |     READY |
+|               455 |  4 |     READY |   RUNNING |
+|               475 |  4 |   RUNNING |   WAITING |
+|               480 |  4 |   WAITING |     READY |
+|               480 |  2 |   WAITING |     READY |
+|               480 |  2 |     READY |   RUNNING |
+|               500 |  2 |   RUNNING |   WAITING |
+|               500 |  4 |     READY |   RUNNING |
+|               520 |  4 |   RUNNING |   WAITING |
+|               525 |  4 |   WAITING |     READY |
+|               525 |  4 |     READY |   RUNNING |
+|               545 |  4 |   RUNNING |TERMINATED |
+|               560 |  2 |   WAITING |     READY |
+|               560 |  2 |     READY |   RUNNING |
+|               580 |  2 |   RUNNING |   WAITING |
+|               640 |  2 |   WAITING |     READY |
+|               640 |  2 |     READY |   RUNNING |
+|               660 |  2 |   RUNNING |   WAITING |
+|               720 |  2 |   WAITING |     READY |
+|               720 |  2 |     READY |   RUNNING |
+|               740 |  2 |   RUNNING |   WAITING |
+|               800 |  2 |   WAITING |     READY |
+|               800 |  2 |     READY |   RUNNING |
+|               820 |  2 |   RUNNING |   WAITING |
+|               880 |  2 |   WAITING |     READY |
+|               880 |  2 |     READY |   RUNNING |
+|               900 |  2 |   RUNNING |   WAITING |
+|               960 |  2 |   WAITING |     READY |
+|               960 |  2 |     READY |   RUNNING |
+|               980 |  2 |   RUNNING |TERMINATED |
++------------------------------------------------+
+
+Throughput: 4/980
+Average TAT: 576
+Average WT: 205
+Average RT: 101

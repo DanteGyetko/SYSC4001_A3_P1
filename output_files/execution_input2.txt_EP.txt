@@ -1,0 +1,42 @@
++------------------------------------------------+
+|Time of Transition |PID | Old State | New State |
++------------------------------------------------+
+|                 0 |  1 |       NEW |     READY |
+|                 0 |  1 |     READY |   RUNNING |
+|                20 |  4 |       NEW |     READY |
+|               150 |  1 |   RUNNING |   WAITING |
+|               150 |  4 |     READY |   RUNNING |
+|               170 |  1 |   WAITING |     READY |
+|               400 |  2 |       NEW |     READY |
+|               400 |  4 |   RUNNING |TERMINATED |
+|               400 |  1 |     READY |   RUNNING |
+|               450 |  1 |   RUNNING |TERMINATED |
+|               450 |  2 |     READY |   RUNNING |
+|               500 |  2 |   RUNNING |   WAITING |
+|               510 |  2 |   WAITING |     READY |
+|               510 |  2 |     READY |   RUNNING |
+|               560 |  2 |   RUNNING |   WAITING |
+|               567 |  3 |       NEW |     READY |
+|               567 |  3 |     READY |   RUNNING |
+|               570 |  2 |   WAITING |     READY |
+|               867 |  3 |   RUNNING |   WAITING |
+|               867 |  2 |     READY |   RUNNING |
+|               892 |  3 |   WAITING |     READY |
+|               917 |  2 |   RUNNING |   WAITING |
+|               917 |  3 |     READY |   RUNNING |
+|               927 |  2 |   WAITING |     READY |
+|              1017 |  3 |   RUNNING |TERMINATED |
+|              1017 |  2 |     READY |   RUNNING |
+|              1067 |  2 |   RUNNING |   WAITING |
+|              1077 |  2 |   WAITING |     READY |
+|              1077 |  2 |     READY |   RUNNING |
+|              1127 |  2 |   RUNNING |   WAITING |
+|              1137 |  2 |   WAITING |     READY |
+|              1137 |  2 |     READY |   RUNNING |
+|              1187 |  2 |   RUNNING |TERMINATED |
++------------------------------------------------+
+
+Throughput: 4/1187
+Average TAT: 516
+Average WT: 205
+Average RT: 86

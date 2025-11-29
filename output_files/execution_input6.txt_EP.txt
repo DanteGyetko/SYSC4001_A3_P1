@@ -1,0 +1,36 @@
++------------------------------------------------+
+|Time of Transition |PID | Old State | New State |
++------------------------------------------------+
+|                 0 |  1 |       NEW |     READY |
+|                 0 |  4 |       NEW |     READY |
+|                 0 |  1 |     READY |   RUNNING |
+|                10 |  2 |       NEW |     READY |
+|                30 |  3 |       NEW |     READY |
+|                50 |  1 |   RUNNING |TERMINATED |
+|                50 |  2 |     READY |   RUNNING |
+|               150 |  2 |   RUNNING |   WAITING |
+|               150 |  3 |     READY |   RUNNING |
+|               200 |  2 |   WAITING |     READY |
+|               760 |  3 |   RUNNING |TERMINATED |
+|               760 |  2 |     READY |   RUNNING |
+|               860 |  2 |   RUNNING |   WAITING |
+|               860 |  4 |     READY |   RUNNING |
+|               910 |  2 |   WAITING |     READY |
+|              1560 |  4 |   RUNNING |   WAITING |
+|              1560 |  2 |     READY |   RUNNING |
+|              1570 |  4 |   WAITING |     READY |
+|              1660 |  2 |   RUNNING |   WAITING |
+|              1660 |  4 |     READY |   RUNNING |
+|              1710 |  2 |   WAITING |     READY |
+|              1760 |  4 |   RUNNING |TERMINATED |
+|              1760 |  2 |     READY |   RUNNING |
+|              1860 |  2 |   RUNNING |   WAITING |
+|              1910 |  2 |   WAITING |     READY |
+|              1910 |  2 |     READY |   RUNNING |
+|              1970 |  2 |   RUNNING |TERMINATED |
++------------------------------------------------+
+
+Throughput: 4/1970
+Average TAT: 1125
+Average WT: 592
+Average RT: 287

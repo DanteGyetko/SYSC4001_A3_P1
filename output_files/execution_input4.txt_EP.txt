@@ -1,0 +1,39 @@
++------------------------------------------------+
+|Time of Transition |PID | Old State | New State |
++------------------------------------------------+
+|                 0 |  4 |       NEW |     READY |
+|                 0 |  4 |     READY |   RUNNING |
+|                30 |  3 |       NEW |     READY |
+|                50 |  1 |       NEW |     READY |
+|                70 |  2 |       NEW |     READY |
+|               700 |  4 |   RUNNING |   WAITING |
+|               700 |  1 |     READY |   RUNNING |
+|               715 |  4 |   WAITING |     READY |
+|               770 |  1 |   RUNNING |   WAITING |
+|               770 |  2 |     READY |   RUNNING |
+|               780 |  1 |   WAITING |     READY |
+|              1030 |  2 |   RUNNING |   WAITING |
+|              1030 |  1 |     READY |   RUNNING |
+|              1053 |  2 |   WAITING |     READY |
+|              1100 |  1 |   RUNNING |   WAITING |
+|              1100 |  2 |     READY |   RUNNING |
+|              1110 |  1 |   WAITING |     READY |
+|              1300 |  2 |   RUNNING |TERMINATED |
+|              1300 |  1 |     READY |   RUNNING |
+|              1310 |  1 |   RUNNING |TERMINATED |
+|              1310 |  3 |     READY |   RUNNING |
+|              1810 |  3 |   RUNNING |   WAITING |
+|              1810 |  4 |     READY |   RUNNING |
+|              1890 |  3 |   WAITING |     READY |
+|              1910 |  4 |   RUNNING |TERMINATED |
+|              1910 |  3 |     READY |   RUNNING |
+|              2410 |  3 |   RUNNING |   WAITING |
+|              2490 |  3 |   WAITING |     READY |
+|              2490 |  3 |     READY |   RUNNING |
+|              2690 |  3 |   RUNNING |TERMINATED |
++------------------------------------------------+
+
+Throughput: 4/2690
+Average TAT: 1765
+Average WT: 1058
+Average RT: 493

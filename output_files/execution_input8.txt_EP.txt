@@ -1,0 +1,45 @@
++------------------------------------------------+
+|Time of Transition |PID | Old State | New State |
++------------------------------------------------+
+|                 0 |  3 |       NEW |     READY |
+|                 0 |  2 |       NEW |     READY |
+|                 0 |  5 |       NEW |     READY |
+|                 0 |  2 |     READY |   RUNNING |
+|               200 |  2 |   RUNNING |   WAITING |
+|               200 |  3 |     READY |   RUNNING |
+|               275 |  3 |   RUNNING |   WAITING |
+|               275 |  5 |     READY |   RUNNING |
+|               400 |  2 |   WAITING |     READY |
+|               425 |  3 |   WAITING |     READY |
+|               425 |  5 |   RUNNING |   WAITING |
+|               425 |  2 |     READY |   RUNNING |
+|               475 |  5 |   WAITING |     READY |
+|               625 |  2 |   RUNNING |   WAITING |
+|               625 |  3 |     READY |   RUNNING |
+|               700 |  3 |   RUNNING |   WAITING |
+|               700 |  5 |     READY |   RUNNING |
+|               825 |  2 |   WAITING |     READY |
+|               850 |  3 |   WAITING |     READY |
+|               850 |  5 |   RUNNING |   WAITING |
+|               850 |  2 |     READY |   RUNNING |
+|               900 |  5 |   WAITING |     READY |
+|              1050 |  2 |   RUNNING |   WAITING |
+|              1050 |  3 |     READY |   RUNNING |
+|              1125 |  3 |   RUNNING |   WAITING |
+|              1125 |  5 |     READY |   RUNNING |
+|              1250 |  2 |   WAITING |     READY |
+|              1275 |  3 |   WAITING |     READY |
+|              1275 |  5 |   RUNNING |   WAITING |
+|              1275 |  2 |     READY |   RUNNING |
+|              1325 |  5 |   WAITING |     READY |
+|              1475 |  2 |   RUNNING |TERMINATED |
+|              1475 |  3 |     READY |   RUNNING |
+|              1550 |  3 |   RUNNING |TERMINATED |
+|              1550 |  5 |     READY |   RUNNING |
+|              1700 |  5 |   RUNNING |TERMINATED |
++------------------------------------------------+
+
+Throughput: 3/1700
+Average TAT: 1575
+Average WT: 608
+Average RT: 286

@@ -1,0 +1,96 @@
++------------------------------------------------+
+|Time of Transition |PID | Old State | New State |
++------------------------------------------------+
+|                 0 |  3 |       NEW |     READY |
+|                 0 |  4 |       NEW |     READY |
+|                 0 |  3 |     READY |   RUNNING |
+|                50 |  2 |       NEW |     READY |
+|               140 |  3 |   RUNNING |   WAITING |
+|               140 |  2 |     READY |   RUNNING |
+|               160 |  2 |   RUNNING |   WAITING |
+|               160 |  4 |     READY |   RUNNING |
+|               185 |  2 |   WAITING |     READY |
+|               200 |  1 |       NEW |     READY |
+|               240 |  4 |   RUNNING |   WAITING |
+|               240 |  1 |     READY |   RUNNING |
+|               260 |  3 |   WAITING |     READY |
+|               390 |  4 |   WAITING |     READY |
+|               790 |  1 |   RUNNING |TERMINATED |
+|               790 |  2 |     READY |   RUNNING |
+|               810 |  2 |   RUNNING |   WAITING |
+|               810 |  3 |     READY |   RUNNING |
+|               835 |  2 |   WAITING |     READY |
+|               950 |  3 |   RUNNING |   WAITING |
+|               950 |  2 |     READY |   RUNNING |
+|               970 |  2 |   RUNNING |   WAITING |
+|               970 |  4 |     READY |   RUNNING |
+|               995 |  2 |   WAITING |     READY |
+|              1050 |  4 |   RUNNING |   WAITING |
+|              1050 |  2 |     READY |   RUNNING |
+|              1070 |  3 |   WAITING |     READY |
+|              1070 |  2 |   RUNNING |   WAITING |
+|              1070 |  3 |     READY |   RUNNING |
+|              1095 |  2 |   WAITING |     READY |
+|              1200 |  4 |   WAITING |     READY |
+|              1210 |  3 |   RUNNING |   WAITING |
+|              1210 |  2 |     READY |   RUNNING |
+|              1230 |  2 |   RUNNING |   WAITING |
+|              1230 |  4 |     READY |   RUNNING |
+|              1255 |  2 |   WAITING |     READY |
+|              1310 |  4 |   RUNNING |   WAITING |
+|              1310 |  2 |     READY |   RUNNING |
+|              1330 |  3 |   WAITING |     READY |
+|              1330 |  2 |   RUNNING |   WAITING |
+|              1330 |  3 |     READY |   RUNNING |
+|              1355 |  2 |   WAITING |     READY |
+|              1460 |  4 |   WAITING |     READY |
+|              1470 |  3 |   RUNNING |   WAITING |
+|              1470 |  2 |     READY |   RUNNING |
+|              1490 |  2 |   RUNNING |   WAITING |
+|              1490 |  4 |     READY |   RUNNING |
+|              1515 |  2 |   WAITING |     READY |
+|              1570 |  4 |   RUNNING |   WAITING |
+|              1570 |  2 |     READY |   RUNNING |
+|              1590 |  3 |   WAITING |     READY |
+|              1590 |  2 |   RUNNING |   WAITING |
+|              1590 |  3 |     READY |   RUNNING |
+|              1615 |  2 |   WAITING |     READY |
+|              1630 |  3 |   RUNNING |TERMINATED |
+|              1630 |  2 |     READY |   RUNNING |
+|              1650 |  2 |   RUNNING |   WAITING |
+|              1675 |  2 |   WAITING |     READY |
+|              1675 |  2 |     READY |   RUNNING |
+|              1695 |  2 |   RUNNING |   WAITING |
+|              1720 |  2 |   WAITING |     READY |
+|              1720 |  4 |   WAITING |     READY |
+|              1720 |  2 |     READY |   RUNNING |
+|              1740 |  2 |   RUNNING |   WAITING |
+|              1740 |  4 |     READY |   RUNNING |
+|              1765 |  2 |   WAITING |     READY |
+|              1820 |  4 |   RUNNING |   WAITING |
+|              1820 |  2 |     READY |   RUNNING |
+|              1840 |  2 |   RUNNING |   WAITING |
+|              1865 |  2 |   WAITING |     READY |
+|              1865 |  2 |     READY |   RUNNING |
+|              1875 |  2 |   RUNNING |TERMINATED |
+|              1970 |  4 |   WAITING |     READY |
+|              1970 |  4 |     READY |   RUNNING |
+|              2050 |  4 |   RUNNING |   WAITING |
+|              2200 |  4 |   WAITING |     READY |
+|              2200 |  4 |     READY |   RUNNING |
+|              2280 |  4 |   RUNNING |   WAITING |
+|              2430 |  4 |   WAITING |     READY |
+|              2430 |  4 |     READY |   RUNNING |
+|              2510 |  4 |   RUNNING |   WAITING |
+|              2660 |  4 |   WAITING |     READY |
+|              2660 |  4 |     READY |   RUNNING |
+|              2740 |  4 |   RUNNING |   WAITING |
+|              2890 |  4 |   WAITING |     READY |
+|              2890 |  4 |     READY |   RUNNING |
+|              2920 |  4 |   RUNNING |TERMINATED |
++------------------------------------------------+
+
+Throughput: 4/2920
+Average TAT: 1741
+Average WT: 671
+Average RT: 175
