@@ -1,7 +1,0 @@
-CSV (integers):
--PID
--Memory size
--Arrival time
--CPU duration
--I/O frequency
--I/O duration
